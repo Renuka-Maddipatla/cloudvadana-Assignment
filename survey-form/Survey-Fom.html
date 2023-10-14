@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Survey Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .field-label {
+            font-weight: bold;
+        }
+        .submit-button {
+            background-color: #0077cc;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .reset-button {
+            background-color: #ccc;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Survey Form</h1>
+        <form id="surveyForm">
+            <div>
+                <label class="field-label" for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+                <span class="error-message" id="firstNameError"></span>
+            </div>
+            <div>
+                <label class="field-label" for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+                <span class="error-message" id="lastNameError"></span>
+            </div>
+            <div>
+                <label class="field-label" for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+                <span class="error-message" id="dobError"></span>
+            </div>
+            <div>
+                <label class="field-label" for="country">Country:</label>
+                <select id="country" name="country" required>
+                    <option value="">Select a country</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                    <option value="UK">UK</option>
+                    <option value="india">india</option>
+                    <option value="pakistan">pakistan</option>
+                    <option value="africa">africa</option>
+                    <option value="china">china</option>
+                    <option value="nepal">nepal</option>
+                    <option value="britan">britan</option>
+
+                </select>
+                <span class="error-message" id="countryError"></span>
+            </div>
+            <div>
+                <label class="field-label">Gender:</label>
+                <label><input type="checkbox" name="gender" value="Male">Male</label>
+                <label><input type="checkbox" name="gender" value="Female">Female</label>
+                <span class="error-message" id="genderError"></span>
+            </div>
+            <div>
+                <label class="field-label" for="profession">Profession:</label>
+                <input type="text" id="profession" name="profession" required>
+                <span class="error-message" id="professionError"></span>
+            </div>
+            <div>
+                <label class="field-label" for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-message" id="emailError"></span>
+            </div>
+            <div>
+                <label class="field-label" for="mobile">Mobile Number:</label>
+                <input type="tel" id="mobile" name="mobile" required>
+                <span class="error-message" id="mobileError"></span>
+            </div>
+            <div>
+                <button type="button" class="submit-button" onclick="submitForm()">Submit</button>
+                <button type="button" class="reset-button" onclick="resetForm()">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function submitForm() {
+            const form = document.getElementById("surveyForm");
+            const firstName = document.getElementById("firstName");
+            const lastName = document.getElementById("lastName");
+            const dob = document.getElementById("dob");
+            const country = document.getElementById("country");
+            const gender = document.querySelectorAll('input[name="gender"]:checked');
+            const profession = document.getElementById("profession");
+            const email = document.getElementById("email");
+            const mobile = document.getElementById("mobile");
+
+            // Reset previous error messages
+            document.querySelectorAll(".error-message").forEach(error => error.textContent = "");
+
+            // Validate each field
+            let isValid = true;
+            if (!firstName.value) {
+                document.getElementById("firstNameError").textContent = "Please fill in the field";
+                isValid = false;
+            }
+            if (!lastName.value) {
+                document.getElementById("lastNameError").textContent = "Please fill in the field";
+                isValid = false;
+            }
+            if (!dob.value) {
+                document.getElementById("dobError").textContent = "Please fill in the field";
+                isValid = false;
+            }
+            if (country.value === "") {
+                document.getElementById("countryError").textContent = "Please select a country";
+                isValid = false;
+            }
+            if (gender.length === 0) {
+                document.getElementById("genderError").textContent = "Please select at least one gender";
+                isValid = false;
+            }
+            if (!profession.value) {
+                document.getElementById("professionError").textContent = "Please fill in the field";
+                isValid = false;
+            }
+            if (!email.value) {
+                document.getElementById("emailError").textContent = "Please fill in the field";
+                isValid = false;
+            }
+            if (!mobile.value) {
+                document.getElementById("mobileError").textContent = "Please fill in the field";
+                isValid = false;
+            }
+
+            if (isValid) {
+                const popupContent = `
+                    <p>First Name: ${firstName.value}</p>
+                    <p>Last Name: ${lastName.value}</p>
+                    <p>Date of Birth: ${dob.value}</p>
+                    <p>Country: ${country.value}</p>
+                    <p>Gender: ${Array.from(gender).map(input => input.value).join(', ')}</p>
+                    <p>Profession: ${profession.value}</p>
+                    <p>Email: ${email.value}</p>
+                    <p>Mobile Number: ${mobile.value}</p>
+                `;
+
+                alert("Survey Form Submitted. Here are the details:\n\n" + popupContent);
+                form.reset();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById("surveyForm").reset();
+            document.querySelectorAll(".error-message").forEach(error => error.textContent = "");
+        }
+    </script>
+</body>
+</html>
